@@ -7,7 +7,6 @@ import plyer.platforms.win.notification
 from plyer import notification as bildirim
 from os import path, getcwd
 from sys import exit as exitt
-import logging
 
 win = Tk()
 win.config(bg= "#7AC5CD")
@@ -68,9 +67,10 @@ class Yazan:
 yaz = Yazan()
 
 
-
-def indir(url:str):
+# İndirme işlemi
+def indir(url:str, noplaylist= True):
     options = {
+        "noplaylist": noplaylist,
         "format": "bestaudio",
     }
     with ytdl(options) as ydl:
@@ -84,7 +84,7 @@ def Indir():
     link = giris.get()
     giris.delete(0, END)
     try:
-        indir(link)
+        indir(link, noplaylist= not cekvar.get())
         yaz.mesaj("Ses İndirildi")
         if bildirimler == 1:
             bildirim.notify("Ses İndirildi 🎶", f"{getcwd()} dizinine indirildi.")
@@ -108,7 +108,7 @@ class Linklertxt:
         global success, fail
         try:
             print("İndiliyor..")
-            indir(linkmz)
+            indir(linkmz, noplaylist= True)
             print("İndirildi.")
             success += 1
             return False
@@ -201,6 +201,11 @@ def txtyazi():
     else: return "linkler.txt dosyası oluştur"
 txtbutonu = Button(text= txtyazi(), width= 35, height= 2, command= Linklertxt().txtrun)
 txtbutonu.place(anchor= CENTER, relx= 0.5, rely= 0.75)
+
+# Playlist indirme ayarı
+cekvar = BooleanVar()
+cek = Checkbutton(text= "Playlist ile beraber indir", variable= cekvar)
+cek.place(relx= 0.9, rely= 0.78, anchor= CENTER)
 
 
 kapatildi = 0
