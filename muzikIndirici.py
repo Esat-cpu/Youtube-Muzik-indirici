@@ -1,4 +1,4 @@
-# YouİndirTube2.0
+# Youtube Müzik İndirici
 from tkinter import *
 from yt_dlp import YoutubeDL as ytdl
 from threading import Thread as thr
