@@ -3,16 +3,18 @@ from tkinter import *
 from yt_dlp import YoutubeDL as ytdl
 from threading import Thread as thr
 from time import sleep
-import plyer.platforms.win.notification
 from plyer import notification as bildirim
-from os import path, getcwd
 from sys import exit as exitt
+import os
+
+if os.name == "nt":
+    import plyer.platforms.win.notification
 
 win = Tk()
 win.config(bg= "#7AC5CD")
 win.geometry("800x535")
 win.title("Müzikİndirici")
-win.maxsize(900, 600)
+win.maxsize(1200,850)
 win.minsize(680, 420)
 
 Label(text= "YouTube Müzik İndirici").pack()
@@ -87,7 +89,7 @@ def Indir():
         indir(link, noplaylist= not cekvar.get())
         yaz.mesaj("Ses İndirildi")
         if bildirimler == 1:
-            bildirim.notify("Ses İndirildi 🎶", f"{getcwd()} dizinine indirildi.")
+            bildirim.notify("Ses İndirildi 🎶", f"{os.getcwd()} dizinine indirildi.")
     except:
         yaz.hata()
     finally:
@@ -147,7 +149,7 @@ class Linklertxt:
 
 
     def txtrun(self):
-        if path.exists("linkler.txt"):
+        if os.path.exists("linkler.txt"):
             kilitle()
             isimDegis("İndiriliyor", "İndiriliyor")
             t = thr(target= self.islem)
@@ -197,7 +199,7 @@ indirbutonu.place(anchor= CENTER, relx= 0.5, rely= 0.65)
 
 # txt indirici butonu
 def txtyazi():
-    if path.exists("linkler.txt"): return "linkler.txt dosyasındaki linkleri İndir"
+    if os.path.exists("linkler.txt"): return "linkler.txt dosyasındaki linkleri İndir"
     else: return "linkler.txt dosyası oluştur"
 txtbutonu = Button(text= txtyazi(), width= 35, height= 2, command= Linklertxt().txtrun)
 txtbutonu.place(anchor= CENTER, relx= 0.5, rely= 0.75)
